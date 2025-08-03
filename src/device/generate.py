@@ -531,6 +531,36 @@ def partition_by_name(fns):
   return ans
 
 name_to_funcs = partition_by_name(fn for fn in primary_funcs if fn[0]!="Nop")
+<<<<<<< HEAD
+=======
+name_to_kernels = partition_by_name(kfn for kfn in kernel_funcs if kfn[0]!="Generic")
+
+# Generate <gensrc>/rules.mk
+with open(os.path.join(gensrc, "rules.mk"), "w") as f:
+  out = f.write
+  impl_names = sorted(name_to_funcs.keys())
+  names = impl_names + ["host_table.cc", "device_table.cu"]
+  out("LIB_OBJS_GEN = $(patsubst %,$(OBJDIR)/genobj/%.o,{names})\n"
+      .format(names=" ".join(names)))
+  out("\n")
+
+  # For each <coll>_<op>_<ty>.cu compile to a .cu.o file. Notice the dependencies
+  # come from the suffix-erased file (e.g. 'gensrc/all_reduce.cu')
+  for name in impl_names:
+    coll = name_to_funcs[name][0]
+    out(
+      "$(OBJDIR)/genobj/{name}.o: $(OBJDIR)/gensrc $(OBJDIR)/genobj/{lower_coll}.cu.d\n"
+      "\t" "$(call COMPILE,$@,$(OBJDIR)/gensrc/{name})\n"
+      "\n"
+      .format(name=name, lower_coll=coll_camel_to_lower[coll])
+    )
+
+# Add the suffix-erased .cu's which are used only for dependency scraping.
+for coll in set(coll for (coll,_,_,_,_) in primary_funcs if coll!="Nop"):
+  name = impl_filename(coll, None, None, None, None)
+  if name not in name_to_funcs:
+    name_to_funcs[name] = (coll, [])
+>>>>>>> refs/rewritten/nccl-master
 
 redop_to_cxx = {
   None: "FuncCopy",

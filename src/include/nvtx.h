@@ -23,6 +23,7 @@
 #define NVTX_SID_CommAbort            3 // same schema as NVTX_SID_CommInitRank
 #define NVTX_SID_AllGather            4
 #define NVTX_SID_AllReduce            5
+<<<<<<< HEAD
 #define NVTX_SID_AllToAll             6
 #define NVTX_SID_AllToAllv            7
 #define NVTX_SID_Broadcast            8
@@ -41,6 +42,22 @@
 
 // Define static schema ID for the reduction operation.
 #define NVTX_PAYLOAD_ENTRY_NCCL_REDOP 20 + NVTX_PAYLOAD_ENTRY_TYPE_SCHEMA_ID_STATIC_START
+=======
+#define NVTX_SID_Broadcast            6
+#define NVTX_SID_ReduceScatter        7
+#define NVTX_SID_Reduce               8
+#define NVTX_SID_Send                 9
+#define NVTX_SID_Recv                 10
+#define NVTX_SID_CommInitRankConfig   11 // same schema as NVTX_SID_CommInitRank
+#define NVTX_SID_CommInitRankScalable 12 // same schema as NVTX_SID_CommInitRank
+#define NVTX_SID_CommSplit            13
+#define NVTX_SID_CommFinalize         14
+#define NVTX_SID_CommShrink           15
+// When adding new schema IDs, DO NOT re-use/overlap with the enum schema ID below!
+
+// Define static schema ID for the reduction operation.
+#define NVTX_PAYLOAD_ENTRY_NCCL_REDOP 16 + NVTX_PAYLOAD_ENTRY_TYPE_SCHEMA_ID_STATIC_START
+>>>>>>> refs/rewritten/nccl-master
 
 extern const nvtxDomainHandle_t ncclNvtxDomainHandle;
 
